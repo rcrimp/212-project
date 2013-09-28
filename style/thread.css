@@ -1,0 +1,49 @@
+#content h2{
+    font-weight:normal;
+    display:inline;
+    margin:10px;
+}
+
+.reply {
+    border-left:2px solid #3AD;
+    border-top:2px solid #CCC;
+    margin:5px 0px 0px 5px;
+    padding:5px 0px 0px 5px;
+}
+
+.reply p {
+    padding:5px;
+}
+
+.username {
+    display:inline;
+    font-weight:bold;
+    color:#3AD;
+}
+
+.hideTag {
+    margin:0;
+    padding:0;
+    display:inline;
+    font-size:90%;
+}
+
+.datetime {
+    display:inline;
+    font-size:80%;
+    padding:5px;
+}
+
+.text {
+    
+}
+
+.hide {
+    margin:0;
+    padding:0;
+}
+
+#postCount {
+    display:inline;
+    font-size:80%;
+}

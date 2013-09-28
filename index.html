@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Board Index</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style/default.css">
+    <link rel="stylesheet" href="style/thread.css">
+    <link rel="stylesheet" href="style/users.css">
+
+    <link rel="icon" href="images/favicon.png">
+    
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/cookie.js"></script>
+    <script src="scripts/changeTheme.js"></script>
+    <script src="scripts/showHide.js"></script>
+    <script src="scripts/users.js"></script>
+    <script src="scripts/thread.js"></script>
+    <script src="scripts/forum.js"></script>
+  </head>
+  <body>
+    <header><img id="logo" src="images/logo_b.png" alt="Forum logo">
+      <h1>Walrus Forum</h1>
+    </header>
+
+    <div id="wrapper">
+
+      <nav>
+        <h2>Nav Bar</h2>
+        <div id="clearButton" class="button"><h3>Main</h3></div>
+        <div id="userButton" class="button"><h3>Users</h3></div>
+        <div id="themeButton" class="button"><h3>Theme</h3></div>
+        <div id="themeButtons">
+          <img src="images/colour_b.png" width="19" height="19" alt="change theme to blue" onclick="changeTheme.set(0);">
+	  <img src="images/colour_g.png" width="19" height="19" alt="change theme to green" onclick="changeTheme.set(1)">
+	  <img src="images/colour_o.png" width="19" height="19" alt="change theme to orange" onclick="changeTheme.set(2)">
+	  <img src="images/colour_r.png" width="19" height="19" alt="change theme to red" onclick="changeTheme.set(3)">
+	  <img src="images/colour_p.png" width="19" height="19" alt="change theme to purple" onclick="changeTheme.set(4)">
+        </div>
+        <h2>Discussions</h2>
+      </nav>
+      <div id="content">
+        <p class="reply">For full functionality of this website please
+          <a href="http://www.enable-javascript.com/">enable javascript</a></p>
+      </div>
+      
+    </div>
+    
+    <footer><p>Reuben Crimp © 2013</p></footer>
+  </body>
+</html>
