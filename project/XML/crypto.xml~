@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE posts SYSTEM "thread.dtd">
+<test>testing123</test>
 <posts>
     <post>
         <username>Alice</username>

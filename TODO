@@ -1,0 +1,42 @@
+register.php
+  validate the post request more thoroughly.
+  set logged in session.
+  redirect to forum.php
+
+Login
+  start new threads
+    modify form.xml
+    new thread.xml
+
+  (optional)
+    delete posts (if admin)
+    report posts 
+    edit posts (if ur the poster OR admin)
+
+valid HTML
+valid CSS
+usability concerns
+basic security against XSS
+
+assignmentTwo.pdf (pdf 1-2 A4 pages, >= 12pt
+  CREATE TABLE users (
+    username VARCHAR(255) NOT NULL,
+    password CHAR(40) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    type TINYINT(3) UNSIGNED NOT NULL,
+    PRIMARY KEY (username)
+  );
+
+  type is 'account type' ie 0=normal, 1=moderator, 2=admin etc...
+  test cases
+  enhancement list (2+)
+  additional info (admin pass etc)
+  Guests should not be able to view anything
+  
+changeTheme.js thread hover
+reply textarea max-width, initial width??
+put MySQL password in restricted file (register.php. login.php)
+sending password over http?
+align h1 on all pages (esp login)

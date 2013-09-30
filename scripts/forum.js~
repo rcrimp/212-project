@@ -21,7 +21,7 @@ var forum = (function () {
                              + "<p>" + $(this).find("postcount").text() + " comments</p>"
                              + "<div>");
         });
-        $(target).append("<div id='newThread' ><h3>New Thread</h3></div>");
+        $(target).append("<div id='newThread'><h3>New Thread</h3></div>");
         $("#newThread").click(function () {
             windows.location = "newThread.php";
         });

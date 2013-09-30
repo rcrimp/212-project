@@ -19,6 +19,14 @@ var showHide = (function () {
                 }
             });
         });
+		
+		$("#content").find(".replybutton").each(function () {
+            $(this).css("cursor", "pointer");
+            $(this).click(function () {
+                $(this).siblings(".replyform").slideToggle(100);
+                //.slideToggle($(this).parent().html().length/2);
+            });
+        });
     };
 
     return pub;

@@ -47,3 +47,19 @@
     display:inline;
     font-size:80%;
 }
+
+.replybutton{
+	display:inline;
+	background-color:inherit;
+	color:#3AD;
+
+	font-weight:500;
+}
+
+.replyform{
+	display:none;
+}
+
+.hidden{
+	display:none;
+}

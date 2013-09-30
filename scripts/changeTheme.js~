@@ -14,11 +14,11 @@ var changeTheme = (function () {
 
     function changeCSS(c, c1, c2) {
         $("footer").css("background-color", c1);
-        $(".thread h3, .button").css("background-color", c1);
+        $(".thread, .button").css("background-color", c1);
         $(".reply").css("border-left-color", c1);
         $(".username").css("color", c1);
         $(".user").css("border-color", c1);
-        $(".thread h3, .button").each(function () {
+        $(".thread, .button").each(function () {
             setHover(this, c1, c2);
         });
         $("#logo").attr("src", "images/logo_" + c + ".png");

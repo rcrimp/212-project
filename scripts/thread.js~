@@ -40,7 +40,7 @@ var thread = (function () {
 		+ "<p class='datetime'>" + datetime + "</p>"
 		+ "<p class='replybutton'>reply</p>"
 		+ "<div class='hide'>"
-		   + "<p class='text'>" + $(this).children("text").text() + "</p>"
+		+ "<p class='text'>" + $(this).children("text").text() + "</p>"
 		+ "</div>"
 		+ "<form class='replyform' name='replyform' action='post.php' method='post'>"
 		    + "<input class='hidden' type='text' name='thread' value='"+ xmlfile +"'>"
