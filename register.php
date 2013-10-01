@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Walrus Forum Portal</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style/default.css">
-    
-    <link rel="icon" href="images/favicon.png">
-
-    <script src="scripts/jquery.js"></script>
-    <script src="scripts/cookie.js"></script>
-  </head>
-  <body>
-    <header><img id="logo" src="images/logo_b.png" alt="Forum logo">
-      <h1>Walrus Forum Portal</h1>
-    </header>
-    <div id="main">
 <?php
-$end = "</div><footer><p>Reuben Crimp © 2013</p></footer></body></html>";
+session_start();
+include("mysqlpass.php");
+
+function redirectExit(){
+   header("Location: index.php");
+   exit;
+}
    
 function isAlphaNumeric($str) {
   $pattern='/^[A-Za-z0-9_]+$/';
@@ -40,73 +29,95 @@ function checkLength($str, $len) {
   return strlen(trim($str)) === $len;
 }
 
-$conn = new mysqli('sapphire', 'rcrimp', 'rwtcd1994', 'rcrimp_dev'); 
+$conn = new mysqli('sapphire', 'rcrimp', $pass, 'rcrimp_dev'); 
 if ($conn->connect_errno) { 
-  echo "<p>Database connection failed</p>";
+  $_SESSION["error"] = "<p>Database connection failed</p>";
+  redirectExit();
 } else {
 
-  //DATABASE VALIDATION
+  //Database Validation
   if (isset($_POST['user'])){
     $user = $conn->real_escape_string($_POST['user']);
   } else {
-    echo "<p>The username field appears to be blank, please type in a username</p>";
+    $_SESSION["error"] = "<p>The username field appears to be blank, please type in a username</p>";
   }
   if (isset($_POST['fname'])){
     $fname = $conn->real_escape_string($_POST['fname']);
   } else {
-    echo "<p>The name field appears to be blank, please type in your name</p>";
+    $_SESSION["error"] = "<p>The name field appears to be blank, please type in your name</p>";
   }
   if (isset($_POST['lname'])){
     $lname = $conn->real_escape_string($_POST['lname']);
   } else {
-    echo "<p>The surname field appears to be blank, please type in your surname</p>";
+    $_SESSION["error"] = "<p>The surname field appears to be blank, please type in your surname</p>";
   }
   if (isset($_POST['gender'])){
-  $gender = $conn->real_escape_string($_POST['gender']);
+    $gender = $conn->real_escape_string($_POST['gender']);
   } else {
-  echo "<p>The gender field appears to be blank, please type in your surname</p>";
+    $_SESSION["error"] = "<p>The gender field appears to be blank, please type in your surname</p>";
   }
   if (isset($_POST['pass'])){
     $pass = $conn->real_escape_string($_POST['pass']);
   } else {
-    echo "<p>The pasword field appears to be blank, please type in your password</p>";
+    $_SESSION["error"] = "<p>The pasword field appears to be blank, please type in your password</p>";
   }
   if (isset($_POST['email'])){
      $email = $conn->real_escape_string($_POST['email']);
   } else {
-    echo "<p>email field appears to be blank, please type in your email</p>";
+    $_SESSION["error"] = "<p>email field appears to be blank, please type in your email</p>";
   }
 
   if (isEmpty($user)||isEmpty($fname)||isEmpty($lname)||isEmpty($pass)||isEmpty($email)){
-    echo "<p>one or more registration fields appear to be blank, please <a href='index.php'>try again.</a></p>$end";
-    exit;
+    $_SESSION["error"] = "<p>one or more registration fields appear to be blank</p>";
+    redirectExit();
   }
-  //regex validate, size validate all input
+  if (!isAlphaNumeric($user)){
+    $_SESSION["error"] = "<p>Invalid username</p>";
+    redirectExit();
+  }
+  if (!isAlphaNumeric($fname)){
+    $_SESSION["error"] = "<p>Invalid name</p>";
+    redirectExit();
+  }
+  if (!isAlphaNumeric($lname)){
+    $_SESSION["error"] = "<p>Invalid surname";
+    redirectExit();
+  }
+  if (strlen(trim($pass)) < 6) {
+    $_SESSION["error"] = "<p>Password Must be longer than 6 characters</p>";
+    redirectExit();
+  }
   if (!($gender==="" || $gender==="Male" || $gender==="Female")) {
-    echo "<p>Invalid gender option, please enable JavaScript or try 'Male' or 'Female', <a href='index.php'>Go Back</a></p>$end";
-    exit;
+    $_SESSION["error"] = "<p>Invalid gender, please enable JavaScript or try Male or Female</p>";
+    redirectExit();
   }
-
-  //CHECK DATABASE FOR DUPLICATE
+  if (!isEmail($email)){
+    $_SESSION["error"] = "<p>Invalid email</p>";
+    redirectExit();
+  }
+                                   
+  //Check Database for suplicate usernames
   $query = "SELECT * FROM users WHERE username='$user'";
   $result = $conn->query($query);
   if ($result->num_rows !== 0){
-    echo "<p>username is already taken, <a href='index.php'>Go Back</a></p>$end";
-    exit;
+    $_SESSION["error"] = "<p>username is already taken</p>";
+    redirectExit();
   }
 
-  //ADD TO DATABASE
+  //add to the database
   $query = "INSERT INTO users (username, password, name, surname, email, type) ".
   "VALUES ('$user', SHA('$pass'), '$fname', '$lname', '$email', '0')";
   $conn->query($query);
   if ($conn->error) {
-    echo "<p>Database error</p>$end";
-    exit;
+    $_SESSION["error"] = "<p>Database error</p>";
+    redirectExit();
   }
   $result->free();
+  $conn->close();
 
-  //ADD TO XML
+  //Add user to the xml files
   $xml = simplexml_load_file("XML/users.xml");
+
   $newUser = $xml->addChild('user');
   $newUser->addChild('username', $user);
   $newUser->addChild('firstname', $fname);
@@ -115,7 +126,8 @@ if ($conn->connect_errno) {
   $newUser->addChild('signature', '');
   $xml->saveXML("XML/users.xml");
 
+  //auto login
+  $_SESSION['authenticatedUser'] = $user;
+  header("Location: forum.php");
 }
-$conn->close();
-//REDIRECT TO INDEX.PHP
 ?>

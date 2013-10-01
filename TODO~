@@ -32,6 +32,7 @@ CREATE TABLE users (
   PRIMARY KEY (username)
 );
 
+
 enhancement list (2+)
 ADMIN USER
   delete posts (if admin)

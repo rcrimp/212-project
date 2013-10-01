@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<?php
+   session_start();
+   if(isset($_SESSION['authenticatedUser'])){
+     header("Location: forum.php");
+     exit;
+   }
+?>
 <html>
   <head>
     <title>Walrus Forum Portal</title>
@@ -9,14 +16,19 @@
     
     <script src="scripts/jquery.js"></script>
     <script src="scripts/cookie.js"></script>
-    <script src="scripts/portal.js"></script>
+    <script src="scripts/validateLoginRegister.js"></script>
   </head>
   <body>
     <header><img id="logo" src="images/logo_b.png" alt="Forum logo">
       <h1>Walrus Forum Portal</h1>
     </header>
-
     <div id="main">
+      <?php
+         if (isset($_SESSION['error'])){
+           echo "<div id='error'>".$_SESSION['error']."</div>";
+           unset($_SESSION['error']);
+         }
+         ?>
       <button id="lbutton"><h2>Login</h2></button>
       <form id="loginform" name="loginform" action="login.php" method="POST">
         <label for="loginuser">Username </label>
@@ -71,7 +83,6 @@
         <input class="submit" type="submit" value="register">
       </form>
     </div>
-    
     <footer><p>Reuben Crimp © 2013</p></footer>
   </body>
 </html>

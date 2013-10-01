@@ -6,6 +6,11 @@
  */
 var forum = (function () {
     var pub = {};
+
+    function htmlEntities(str) {
+        return str;
+        //return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
     
     /** generateThreadList()
      *
@@ -16,18 +21,35 @@ var forum = (function () {
         $(target).html("<h2>Threads</h2>")
         $(data).find("thread").each(function () {	    
             $(target).append("<div class='thread'>"
-                             + "<h3>" + $(this).find("title").text() + "</h3>"
-                             + "<p>" + $(this).find("OP").text() + "</p>"
-                             + "<p>" + $(this).find("postcount").text() + " comments</p>"
+                             + "<h3>" + htmlEntities($(this).find("title").text()) + "</h3>"
+                             + "<p>" + htmlEntities($(this).find("OP").text()) + "</p>"
+                             + "<p>" + htmlEntities($(this).find("postcount").text()) + " comments</p>"
                              + "<div>");
         });
-        $(target).append("<div id='newThread'><h3>New Thread</h3></div>");
-        $("#newThread").click(function () {
-            windows.location = "newThread.php";
-        });
+
+        $(target).append(
+            $('<div/>')
+                .attr("id", "newThread")
+                .text("New Thread")
+                .click(function () {
+                    $("#content").html("<h2>New Thread</h2>"
+                                       + "<form id='threadform' action='thread.php' method='post'>"
+                                       + "<label for='ftitle'>Title</label>"
+                                       + "<input id='ftitle' type='text' name='title'>"
+                                       + "<label for='fmessage'>Message</label>"
+                                       + "<textarea id='fmessage' name='message' rows='4' cols='50'></textarea>"
+                                       + "<input type='submit' value='submit'>"
+                                       + "</form>");
+                    $("#discussionNav").html("<p>Loading...</p>");
+                    ajaxThreadData("#discussionNav");
+                })
+        );
+
+        $("#loading").html("");
 
         $(target).find(".thread").each(function (i) {
             $(this).click(function () {
+                $("#loading").html("<p>Loading...</p>");
                 thread.get($($(data).find('thread')[i]).find("posts").text(),
                            $($(data).find("thread")[i]).find("title").text());
                 ajaxThreadData("#discussionNav");
@@ -36,6 +58,7 @@ var forum = (function () {
         if (cookie.get("theme") !== null) {
             changeTheme.set(parseInt(cookie.get("theme"), 10));
         }
+        validatePosts.setup();
     }
 
     function ajaxThreadData(target){
@@ -53,13 +76,12 @@ var forum = (function () {
     }
 
     /** setup()
-     *
      * this function sets up all the functionality of the main index page.
-     *
      */
     pub.setup = function () {
         $("#clearButton").click(function () { //adds click event for  the "Main" button
             $("#content").html("");
+            $("#loading").html("<p>Loading...</p>");
             $("#discussionNav").html("");
             ajaxThreadData("#content");
             if (cookie.get("theme") !== null) {
@@ -73,6 +95,7 @@ var forum = (function () {
         });
         $("#userButton").click(function () {
             users.get(); //adds click event for the "Users" button
+            $("#discussionNav").html("<p>Loading...</p>");
             ajaxThreadData("#discussionNav");
         });
         
@@ -82,8 +105,6 @@ var forum = (function () {
         });
 
         ajaxThreadData("#content");
-
-        //changeTheme.setup();
     };
 
     return pub;

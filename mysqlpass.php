@@ -1,0 +1,1 @@
+<?php $pass = "SuperSecurePassword123"; ?>

@@ -34,8 +34,10 @@ var users = (function () {
 
             if ($(this).find('gender').text() === "Male") {
                 src = "userImages/default_male.png";
-            } else {
+            } else if ($(this).find('gender').text() === "Female") {
                 src = "userImages/default_female.png";
+            } else {
+                src = "userImages/default.png";
             }
 
             result = "<div class='user'><img alt='" + username

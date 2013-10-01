@@ -68,6 +68,7 @@ $newpost->addChild('id', uniqid());
 $xml->saveXML("XML/".$thread);
 
 //update postcount
+/*
 $xml = simplexml_load_file("XML/forum.xml");
 foreach($xml->thread as $i) {
   if ((string)$i->posts == $thread){
@@ -76,7 +77,7 @@ foreach($xml->thread as $i) {
      break;
   }
 }
-
+*/
 header("location: forum.php");
 exit();
 ?>

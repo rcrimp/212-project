@@ -5,7 +5,10 @@
  */
 var thread = (function () {
     var pub = {};
-    
+
+    function htmlEntities(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
     /** showThread()
      *
      * this function formats and returns the data from the specified thread
@@ -36,11 +39,11 @@ var thread = (function () {
 	    
             result += "<div class='reply'>"
 		+ "<p class='hideTag'>[-]</p>"
-		+ "<p class='username'>" + username + "</p>"
-		+ "<p class='datetime'>" + datetime + "</p>"
+		+ "<p class='username'>" + htmlEntities(username) + "</p>"
+		+ "<p class='datetime'>" + htmlEntities(datetime) + "</p>"
 		+ "<p class='replybutton'>reply</p>"
 		+ "<div class='hide'>"
-		   + "<p class='text'>" + $(this).children("text").text() + "</p>"
+		+ "<p class='text'>" + htmlEntities($(this).children("text").text()) + "</p>"
 		+ "</div>"
 		+ "<form class='replyform' name='replyform' action='post.php' method='post'>"
 		    + "<input class='hidden' type='text' name='thread' value='"+ xmlfile +"'>"
@@ -67,7 +70,7 @@ var thread = (function () {
      * this function sends an ajax get request for some specified thread's xml data
      */
     pub.get = function (src, title) {
-        $("#content").html("<h2>" + title + "</h2>");
+        $("#content").html("<h2>" + htmlEntities(title) + "</h2>");
         $.ajax({
             type: "GET",
             url: "XML/" + src,

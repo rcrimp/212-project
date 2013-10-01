@@ -7,7 +7,7 @@
    } else {
      $user = $_SESSION['authenticatedUser'];
    }
-?>
+   ?>
 <html>
   <head>
     <title>Board Index</title>
@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="style/users.css">
 
     <link rel="icon" href="images/favicon.png">
-    
     <script src="scripts/jquery.js"></script>
     <script src="scripts/cookie.js"></script>
     <script src="scripts/changeTheme.js"></script>
@@ -25,14 +24,13 @@
     <script src="scripts/users.js"></script>
     <script src="scripts/thread.js"></script>
     <script src="scripts/forum.js"></script>
+    <script src="scripts/validatePost.js"></script>
   </head>
   <body>
     <header><img id="logo" src="images/logo_b.png" alt="Forum logo">
       <h1>Walrus Forum</h1>
     </header>
-
     <div id="wrapper">
-
       <nav>
         <h2>Hello <?php echo $user ?></h2>
         <div id="clearButton" class="button"><h3>Threads</h3></div>    
@@ -49,15 +47,21 @@
         <div id="discussionNav">
         </div>
       </nav>
+      <?php
+         if (isset($_SESSION['error'])){
+         echo "<div id='error'>".$_SESSION['error']."</div>";
+         unset($_SESSION['error']);
+         }
+         ?>
       <div id="content">
+        <p>Loading...</p>
         <noscript class="reply">
           <p>For full functionality of this website please
-          <a href="http://www.enable-javascript.com/">enable javascript</a></p>
+            <a href="http://www.enable-javascript.com/">enable javascript</a></p>
         </noscript>
       </div>
-      
+      <div id="loading"></div>
     </div>
-    
     <footer><p>Reuben Crimp © 2013</p></footer>
   </body>
 </html>

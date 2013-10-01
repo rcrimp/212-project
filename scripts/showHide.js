@@ -19,8 +19,8 @@ var showHide = (function () {
                 }
             });
         });
-		
-		$("#content").find(".replybutton").each(function () {
+	
+	$("#content").find(".replybutton").each(function () {
             $(this).css("cursor", "pointer");
             $(this).click(function () {
                 $(this).siblings(".replyform").slideToggle(100);
